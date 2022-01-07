@@ -19,6 +19,7 @@
 #ifndef RUST_HIR_MAP_H
 #define RUST_HIR_MAP_H
 
+#include "rust-diagnostics.h"
 #include "rust-system.h"
 #include "rust-location.h"
 #include "rust-mapping-common.h"
@@ -473,6 +474,9 @@ public:
     std::function<bool (HirId, HIR::ImplItem *, HIR::ImplBlock *)> cb);
 
   void iterate_impl_blocks (std::function<bool (HirId, HIR::ImplBlock *)> cb);
+
+  void iterate_trait_items (
+    std::function<bool (HIR::TraitItem *item, HIR::Trait *)> cb);
 
   bool is_impl_item (HirId id)
   {

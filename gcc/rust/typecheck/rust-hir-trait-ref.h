@@ -234,6 +234,8 @@ public:
 	   + "]";
   }
 
+  const HIR::Trait *get_hir_trait_ref () const { return hir_trait_ref; }
+
   const Analysis::NodeMapping &get_mappings () const
   {
     return hir_trait_ref->get_mappings ();
@@ -249,6 +251,24 @@ public:
   {
     for (auto &item : item_refs)
       {
+	if (ident.compare (item.get_identifier ()) == 0)
+	  {
+	    *ref = &item;
+	    return true;
+	  }
+      }
+    return false;
+  }
+
+  bool lookup_trait_item_by_type (const std::string &ident,
+				  TraitItemReference::TraitItemType type,
+				  TraitItemReference **ref)
+  {
+    for (auto &item : item_refs)
+      {
+	if (item.get_trait_item_type () != type)
+	  continue;
+
 	if (ident.compare (item.get_identifier ()) == 0)
 	  {
 	    *ref = &item;
@@ -278,7 +298,7 @@ public:
     return false;
   }
 
-  const TraitItemReference &
+  const TraitItemReference *
   lookup_trait_item (const std::string &ident,
 		     TraitItemReference::TraitItemType type) const
   {
@@ -288,9 +308,13 @@ public:
 	  continue;
 
 	if (ident.compare (item.get_identifier ()) == 0)
-	  return item;
+	  {
+	    rust_debug ("XXXXXXXXXXXXXXXXX FOUND %s vs %s", ident.c_str (),
+			item.get_identifier ().c_str ());
+	    return &item;
+	  }
       }
-    return TraitItemReference::error_node ();
+    return &TraitItemReference::error_node ();
   }
 
   size_t size () const { return item_refs.size (); }
