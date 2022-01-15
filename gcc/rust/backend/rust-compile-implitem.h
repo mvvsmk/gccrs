@@ -29,6 +29,7 @@
 namespace Rust {
 namespace Compile {
 
+// HIR Refactor: HIRVisItemlVisitor
 class CompileInherentImplItem : public HIRCompileBase
 {
   using Rust::Compile::HIRCompileBase::visit;
@@ -322,6 +323,7 @@ private:
   Location ref_locus;
 };
 
+// HIR Refactor: HIRVisItemlVisitor
 class CompileTraitItem : public HIRCompileBase
 {
   using Rust::Compile::HIRCompileBase::visit;
