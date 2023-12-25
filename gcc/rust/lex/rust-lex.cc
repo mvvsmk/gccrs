@@ -241,6 +241,7 @@ Lexer::dump_and_skip (int n)
 				  : "")
 	      << " ";
 	  out << Linemap::location_to_string (loc) << " ";
+	  out << ">";
 	}
 
       token_queue.skip (0);
